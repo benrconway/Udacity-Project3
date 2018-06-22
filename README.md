@@ -36,6 +36,7 @@ creating a text file or just printing to the console) the answers to these
 questions.
 
 How I came to these answers? (the numbers reference question numbers above)
+
 1)
 
 2)
