@@ -19,8 +19,10 @@ results = cur.fetchall()
 
 # Make the changes to the database persistent
 conn.commit()
-print(results)
-
+print("The Top Three Articles of All Time")
+print("'%s' -- %dviews" % (results[0][0], results[0[1]])
+print("'%s' -- %dviews" % (results[1][0], results[1[1]])
+print("'%s' -- %dviews" % (results[2][0], results[2[1]])
 # Close communication with the database
 cur.close()
 conn.close()
