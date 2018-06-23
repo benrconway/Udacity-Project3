@@ -5,13 +5,13 @@ import psycopg2
 
 
 # Connect to an existing database
-conn = psycopg2.connect("dbname=news user=postgres password=password")
+conn = psycopg2.connect("dbname=news")
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
-
+sql = "select title, num from articles, (select substring(path from 10) as short, count(*) as num from log where path <> '/' and status = '200 OK' group by path order by num desc limit 3) as favs where articles.slug = favs.short order by num desc;"
 # Execute a command: this creates a new table
-cur.execute("SELECT * FROM authors;")
+cur.execute(sql)
 
 
 # Query the database and obtain data as Python objects
