@@ -4,6 +4,27 @@ import psycopg2
 # SQL setup here
 
 
+# Connect to an existing database
+conn = psycopg2.connect("dbname=news user=postgres password=password")
+
+# Open a cursor to perform database operations
+cur = conn.cursor()
+
+# Execute a command: this creates a new table
+cur.execute("SELECT * FROM authors;")
+
+
+# Query the database and obtain data as Python objects
+results = cur.fetchall()
+
+# Make the changes to the database persistent
+conn.commit()
+print(results)
+
+# Close communication with the database
+cur.close()
+conn.close()
+
 
 # SQL querying code here
 
