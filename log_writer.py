@@ -27,7 +27,6 @@ def topErrors(results):
     for result in results:
         print("'{}' -- {} views".format(result[0], result[1]))
 
-def
 
 # SQL query to answer question 1
 sql = "select title, num from articles, (select substring(path from 10) as short, count(*) as num from log where path <> '/' and status = '200 OK' group by path order by num desc limit 3) as favs where articles.slug = favs.short order by num desc;"
@@ -38,12 +37,16 @@ sql3 = "select a.date, round(a.num*100/b.num::numeric, 2) as percent from (selec
 
 results1 = query(sql)
 topThree(results1)
-
+print("\n")
+print("\n")
+print("\n")
 results2 = query(sql2)
 topAuthors(results2)
+print("\n")
+print("\n")
 
 results3 = query(sql3)
-topErrors(results3)
+# topErrors(results3)
 
 
 #######################################################################
