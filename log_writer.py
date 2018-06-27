@@ -2,29 +2,36 @@ import psycopg2
 
 ######################################################################
 # SQL setup here
+def query(sql_query):
+    conn = psycopg2.connect("dbname=news")
+    cur = conn.cursor()
+    cur.execute(sql_query)
+    results = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return results
+
+def topThree(results):
+    print("The Top Three Articles of All Time")
+    for result in results:
+        print("'%s' -- %d views" % (result[0], results[1]))
+    #
+    # print("'%s' -- %d views" % (results[1][0], results[1][1]))
+    # print("'%s' -- %d views" % (results[2][0], results[2][1]))
 
 
 # Connect to an existing database
-conn = psycopg2.connect("dbname=news")
 
 # Open a cursor to perform database operations
-cur = conn.cursor()
 
 # Execute a command: this creates a new table
-cur.execute(sql)
 
 # Query the database and obtain data as Python objects
-results = cur.fetchall()
 
 # Make the changes to the database persistent
-conn.commit()
-print("The Top Three Articles of All Time")
-print("'%s' -- %d views" % (results[0][0], results[0][1]))
-print("'%s' -- %d views" % (results[1][0], results[1][1]))
-print("'%s' -- %d views" % (results[2][0], results[2][1]))
+
 # Close communication with the database
-cur.close()
-conn.close()
 
 
 # SQL querying code here
@@ -39,16 +46,8 @@ sql2 = "select authors.name, favs.num from authors, articles,(select substring(p
 
 sql3 = "select a.date, round(a.num*100/b.num::numeric, 2) as percent from (select date, count(date) as num from (select time::timestamp::date as date from log where status <> '404 NOT FOUND') as a group by date order by date desc) as a, (select date, count(date) as num from (select time::timestamp::date as date from log where status = '200 OK') as a group by date order by date desc) as b where a.date = b.date;"
 
-
-
-
-# SQL query to answer question 1 with views
-
-# SQL query to answer question 2 with views
-
-# SQL query to answer question 3 with views
-
-
+results1 = query(sql)
+topThree(results1)
 
 
 
