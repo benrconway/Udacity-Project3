@@ -47,8 +47,8 @@ sql2 = "select authors.name, favs.num from authors, articles,(select substring(p
 sql3 = "select a.date, round(a.num*100/b.num::numeric, 2) as percent from (select date, count(date) as num from (select time::timestamp::date as date from log where status <> '404 NOT FOUND') as a group by date order by date desc) as a, (select date, count(date) as num from (select time::timestamp::date as date from log where status = '200 OK') as a group by date order by date desc) as b where a.date = b.date;"
 
 results1 = query(sql)
-print results1
-# topThree(results1)
+print(results1)
+topThree(results1)
 
 
 
