@@ -20,12 +20,12 @@ def topThree(results):
 def topAuthors(results):
     print("The most popular authors of all time:")
     for result in results:
-        print("'{}' -- {} views".format(result[0], result[1]))
+        print("{} -- {} views".format(result[0], result[1]))
 
 def topErrors(results):
-    print("The days on which more than 1\% of requests lead to errors:")
+    print("The days on which more than 1% of requests lead to errors:")
     for result in results:
-        print("'{}' -- {}% errors".format(result[0], result[1]))
+        print("{} -- {}% errors".format(result[0], result[1]))
 
 
 # SQL query to answer question 1
@@ -38,12 +38,10 @@ sql3 = "select * from (select a.date, round(a.num*100/b.num::numeric, 2) as perc
 results1 = query(sql)
 topThree(results1)
 print("\n")
-print("\n")
-print("\n")
+
 results2 = query(sql2)
 # topAuthors(results2)
-print("\n")
-print("\n")
+
 
 results3 = query(sql3)
 topErrors(results3)
