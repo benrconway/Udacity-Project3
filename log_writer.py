@@ -1,7 +1,5 @@
 import psycopg2
 
-######################################################################
-# SQL setup here
 def query(sql_query):
     conn = psycopg2.connect("dbname=news")
     cur = conn.cursor()
@@ -30,11 +28,30 @@ def topErrors(results):
 
 
 # SQL query to answer question 1
-sql = "select title, num from articles, (select substring(path from 10) as short, count(*) as num from log where path <> '/' and status = '200 OK' group by path order by num desc limit 3) as favs where articles.slug = favs.short order by num desc;"
+sql = """select title, num from articles,
+        (select substring(path from 10) as short, count(*) as num from log
+         where path <> '/' and status = '200 OK' group by path
+          order by num desc limit 3) as favs
+           where articles.slug = favs.short order by num desc;"""
 # SQL query to answer question 2
-sql2 = "select authors.name , hits.num from authors, (select articles.author, count(*) as num from articles,(select substring(path from 10) as short from log where path <> '/' and status = '200 OK') as views where articles.slug = views.short group by articles.author order by num desc) as hits where authors.id = hits.author order by hits.num desc;"
+sql2 = """select authors.name , hits.num from authors,
+        (select articles.author, count(*) as num from articles,
+        (select substring(path from 10) as short from log
+         where path <> '/' and status = '200 OK') as views
+          where articles.slug = views.short group by articles.author
+           order by num desc) as hits where authors.id = hits.author
+            order by hits.num desc;"""
 # SQL query to answer question 3
-sql3 = "select * from (select a.date, round(a.num*100/b.num::numeric, 2) as percent from (select date, count(date) as num from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date from log where status = '404 NOT FOUND') as a group by date order by date desc) as a, (select date, count(date) as num from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date from log where status = '200 OK') as a group by date order by date desc) as b where a.date = b.date order by percent desc) as errors where percent > 1;"
+sql3 = """select * from (select a.date, round(a.num*100/b.num::numeric, 2)
+        as percent from (select date, count(date) as num
+         from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY')
+          as date from log where status = '404 NOT FOUND') as a
+           group by date order by date desc) as a,
+            (select date, count(date) as num from
+            (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date
+             from log where status = '200 OK') as a group by date
+              order by date desc) as b where a.date = b.date
+               order by percent desc) as errors where percent > 1;"""
 
 print("\n")
 results1 = query(sql)
