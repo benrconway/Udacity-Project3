@@ -1,5 +1,8 @@
 import psycopg2
 
+
+# As the same query is called three times, I thought it prudent to make it
+# into a simple function
 def query(sql_query):
     conn = psycopg2.connect("dbname=news")
     cur = conn.cursor()
@@ -10,18 +13,22 @@ def query(sql_query):
     conn.close()
     return results
 
+
+# I would have made a single function to handle all outputs, but each was
+# specific enough to merit having individual output functions
 def topThree(results):
     print("The top three articles of all time:")
     for result in results:
         print("'{}' -- {} views".format(result[0], result[1]))
+
 
 def topAuthors(results):
     print("The most popular authors of all time:")
     for result in results:
         print("{} -- {} views".format(result[0], result[1]))
 
+
 def topErrors(results):
-    # needs the answer string to be broken into parts and re-presented.
     print("The days on which more than 1% of requests lead to errors:")
     for result in results:
         print("{} -- {}% errors".format(result[0], result[1]))
@@ -53,6 +60,7 @@ sql3 = """select * from (select a.date, round(a.num*100/b.num::numeric, 2)
               order by date desc) as b where a.date = b.date
                order by percent desc) as errors where percent > 1;"""
 
+# Below is the functions being called and then printing their results.
 print("\n")
 results1 = query(sql)
 topThree(results1)
