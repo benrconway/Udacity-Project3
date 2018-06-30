@@ -17,19 +17,19 @@ def query(sql_query):
 # I would have made a single function to handle all outputs, but each was
 # specific enough to merit having individual output functions
 def topThree(results):
-    print("The top three articles of all time:")
+    print("*** The Top Three Articles of all Time ***")
     for result in results:
         print("'{}' -- {} views".format(result[0], result[1]))
 
 
 def topAuthors(results):
-    print("The most popular authors of all time:")
+    print("*** The Most Popular Authors of all Time ***")
     for result in results:
         print("{} -- {} views".format(result[0], result[1]))
 
 
 def topErrors(results):
-    print("The days on which more than 1% of requests lead to errors:")
+    print("*** The days on which more than 1% of requests lead to errors ***")
     for result in results:
         print("{} -- {}% errors".format(result[0], result[1]))
 
