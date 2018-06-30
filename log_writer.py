@@ -1,5 +1,4 @@
 import psycopg2
-import calendar
 
 ######################################################################
 # SQL setup here
@@ -32,31 +31,18 @@ def topErrors(results):
 
 # SQL query to answer question 1
 sql = "select title, num from articles, (select substring(path from 10) as short, count(*) as num from log where path <> '/' and status = '200 OK' group by path order by num desc limit 3) as favs where articles.slug = favs.short order by num desc;"
-# SQL query to answer question 2, needs fixing to put the it all back together and not have duplicate names.
-sql2 = "select authors.name, favs.num from authors, articles,(select substring(path from 10) as short, count(*) as num from log where path <> '/' and status = '200 OK' group by path order by num desc) as favs where articles.slug = favs.short and articles.author = authors.id order by num desc;"
+# SQL query to answer question 2
+sql2 = "select authors.name , hits.num from authors, (select articles.author, count(*) as num from articles,(select substring(path from 10) as short from log where path <> '/' and status = '200 OK') as views where articles.slug = views.short group by articles.author order by num desc) as hits where authors.id = hits.author order by hits.num desc;"
 # SQL query to answer question 3
-sql3 = "select * from (select a.date, round(a.num*100/b.num::numeric, 2) as percent from (select date, count(date) as num from (select time::timestamp::date as date from log where status = '404 NOT FOUND') as a group by date order by date desc) as a, (select date, count(date) as num from (select time::timestamp::date as date from log where status = '200 OK') as a group by date order by date desc) as b where a.date = b.date order by percent desc) as errors where percent > 1;"
+sql3 = "select * from (select a.date, round(a.num*100/b.num::numeric, 2) as percent from (select date, count(date) as num from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date from log where status = '404 NOT FOUND') as a group by date order by date desc) as a, (select date, count(date) as num from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date from log where status = '200 OK') as a group by date order by date desc) as b where a.date = b.date order by percent desc) as errors where percent > 1;"
 
 results1 = query(sql)
 topThree(results1)
 print("\n")
 
 results2 = query(sql2)
-# topAuthors(results2)
-
+topAuthors(results2)
+print("\n")
 
 results3 = query(sql3)
 topErrors(results3)
-
-
-#######################################################################
-# Log Printing code here
-
-
-# Formatting the answer code here
-
-# Printing the code here
-
-# Printing to a text file code here
-
-# Commands to trigger output, one version commented out
