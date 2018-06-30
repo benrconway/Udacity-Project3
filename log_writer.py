@@ -36,6 +36,7 @@ sql2 = "select authors.name , hits.num from authors, (select articles.author, co
 # SQL query to answer question 3
 sql3 = "select * from (select a.date, round(a.num*100/b.num::numeric, 2) as percent from (select date, count(date) as num from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date from log where status = '404 NOT FOUND') as a group by date order by date desc) as a, (select date, count(date) as num from (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date from log where status = '200 OK') as a group by date order by date desc) as b where a.date = b.date order by percent desc) as errors where percent > 1;"
 
+print("\n")
 results1 = query(sql)
 topThree(results1)
 print("\n")
@@ -46,3 +47,4 @@ print("\n")
 
 results3 = query(sql3)
 topErrors(results3)
+print("\n")
