@@ -33,20 +33,21 @@ To find out the answers to these questions, simply run *python3 log_writer.py*,
 and watch the magic happen.
 If successful it should output the following on the terminal:
 
-The top three articles of all time:
+
+*** The Top Three Articles of all Time ***
 'Candidate is jerk, alleges rival' -- 338647 views
 'Bears love berries, alleges bear' -- 253801 views
 'Bad things gone, say good people' -- 170098 views
 
 
-The most popular authors of all time:
+*** The Most Popular Authors of all Time ***
 Ursula La Multa -- 507594 views
 Rudolf von Treppenwitz -- 423457 views
 Anonymous Contributor -- 170098 views
 Markoff Chaney -- 84557 views
 
 
-The days on which more than 1% of requests lead to errors:
+*** The days on which more than 1% of requests lead to errors ***
 July 17, 2016 -- 2.32% errors
 
 
