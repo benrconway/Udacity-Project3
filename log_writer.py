@@ -61,7 +61,7 @@ sql3 = """select * from (select a.date, round(a.num*100/b.num::numeric, 2)
            group by date order by date desc) as a,
             (select date, count(date) as num from
             (select to_char(time::timestamp::date, 'FMMonth DD, YYYY') as date
-             from log where status = '200 OK') as a group by date
+             from log) as a group by date
               order by date desc) as b where a.date = b.date
                order by percent desc) as errors where percent > 1;"""
 
