@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import psycopg2
 
 
@@ -34,6 +36,9 @@ def topErrors(results):
         print("{} -- {}% errors".format(result[0], result[1]))
 
 
+# I could revise the queries as per description in the previous review, however
+# I choose to keep it this way at present as this is my current understanding
+# and follows what is written in the README file attached.
 # SQL query to answer question 1
 sql = """select title, num from articles,
         (select substring(path from 10) as short, count(*) as num from log
