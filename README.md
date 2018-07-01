@@ -22,16 +22,34 @@ I am to use a single SQL query to answer each of these questions and then take
 those resulting tables into the world of python and prints them out in plain
 text.
 
-Were this part of a larger program, I feel it would be important to separate
-the part of this program that queries the database from that which provides
-the output. This way it would be easier to update without interacting with
-parts that do not need changing.
-For this project, I have opted to follow the standard and included everything
-in the one python file.
+### Setup
 
-To find out the answers to these questions, simply run *python3 log_writer.py*,
-and watch the magic happen.
-If successful it should output the following on the terminal:
+1) Download and install Virtual Box (https://www.virtualbox.org/wiki/Download_Old_Builds_5_1)
+and Vagrant (https://www.vagrantup.com/downloads.html)
+
+2) Once you have both of those setup in your system, go you can fork and/or clone
+ the Full Stack Nanodegree course's VM setup from here (https://github.com/udacity/fullstack-nanodegree-vm).
+
+3) Download the Newsdata information required to build the correct psql database.
+(https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip)
+
+4) Navigate into the cloned repository and then into the subdirectory 'vagrant'.
+Inside this directory, run the command 'vagrant up'. This may take a while to
+execute as it is downloading and installing a linux operating system.
+
+5) Once it has completed, extract the newsdata.sql file from the zip of the same
+name and place it inside the same '/vagrant' subdirectory.
+
+6) Now use the command 'vagrant ssh' to move into the newly created Virtual Machine (VM),
+once inside, run the command 'psql -d news -f newsdata.sql' (which will create
+  the appropriate database and seed it with the news data).
+
+
+Now you should be setup and ready to go. You can simply explore the database by using
+the command 'psql news', or now clone this repository into the same shared directory and
+run *python3 log_writer.py*, to see the answers to the questions above.
+
+If everything is successful it should output the following on the terminal:
 
 
 *** The Top Three Articles of all Time ***
@@ -48,7 +66,7 @@ Markoff Chaney -- 84557 views
 
 
 *** The days on which more than 1% of requests lead to errors ***
-July 17, 2016 -- 2.32% errors
+July 17, 2016 -- 2.26% errors
 
 
 How I came to these answers? (the numbers reference question numbers above)
@@ -77,8 +95,8 @@ names and hits associated with their articles.
 3) Finally, providing any dates that had errors above 1% required that I create
 a self join, as I would access only the log table for this question. So I
 created two result tables I called A and B, one was the collection of all
-requests on a given day that ended in a status of '404 NOT FOUND' and those
-that ended in a status of '200 OK'.
+requests on a given day that ended in a status of '404 NOT FOUND' and the other
+a list of dates and all requests made on a given day.
 Once I had those two, I needed to understand how to make a percent in PSQL and
 do some formatting on the given date format to match the desired output as
 defined by the project brief.
